@@ -1,0 +1,50 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Login and Reg</title>
+        <link rel="stylesheet" href="{% static 'belt_app/css/styles.css' %}">
+        <script src="https://use.typekit.net/iii7xtz.js"></script>
+        <script>try{Typekit.load({ async: true });}catch(e){}</script>
+    </head>
+    <body>
+      <div id="wrapper">
+        <div class="logo">Friends</div>
+          <div class="left-col">
+        <h1>Registration</h1>
+        {% if messages %}
+            <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+            {{ message }}
+            </li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        <form action="/add_user" method="post">
+            {% csrf_token %}
+            <p>Name: <input type="text" name="name"></p>
+            <p>Alias: <input type="text" name="alias"></p>
+            <p>Email: <input type="email" name="email"></p>
+            <p>Password: <input type="password" name="password"></p>
+            <p>Confirm Password: <input type="password" name="confirm_password"></p>
+            <p>Birthday: <input type="date" name="birthday"></p>
+            <p><input type="submit" value="Register"></p>
+        </form>
+      </div>
+      <div class="right-col">
+
+
+        <h1>Login</h1>
+        <form action="/login" method="post">
+            {% csrf_token %}
+            Email: <input type="email" name="login_email">
+            Password: <input type="password" name="login_password">
+            <input type="submit" value="Login">
+        </form>
+        </div>
+      </div>
+    </body>
+</html>

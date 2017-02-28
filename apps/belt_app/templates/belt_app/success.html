@@ -1,0 +1,55 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Friends</title>
+        <link rel="stylesheet" href="{% static 'belt_app/css/styles.css' %}">
+        <script src="https://use.typekit.net/iii7xtz.js"></script>
+        <script>try{Typekit.load({ async: true });}catch(e){}</script>
+    </head>
+    <body>
+      <div id="wrapper">
+        <div class="logo">Friends</div>
+      <div class="left-col">
+        <hr>
+    		<h2>Users not on your friend's list</h2>
+        <br>
+        {%for i in users%}
+        {% if i not in filtered_friends_list and i.id != loggedInUserID %}
+        <h3><a href="/user/{{i.id}}">{{i.name}} {{i.alias}}</a></h3>
+        <form action="/add_friend/{{i.id}}">
+        <input class="friends" type="submit" value="Add as Friend" name='add_friend'>
+        </form>
+        <!-- <a href="/delete_user/{{i.id}}">Delete</a> -->
+        <hr>
+        {% endif %}
+        {%endfor%}
+      </div>
+
+      <div class="right-col">
+        <h4>Welcome, {{ request.session.active_user.name}} • <a href="/user/{{ request.session.active_user.id}} ">My Profile</a> • <a href="/logout">Logout</a> </h4>
+        <br>
+        <h2>Here is the list of your friends:</h2>
+       	{% if friends %}
+        {%for i in friends%}
+       	{{i.friend.name}} {{i.friend.alias}}
+        <br>
+        <a href="/user/{{i.friend.id}}"><input class="friends" type="submit" name="" value="View Profile"></a>
+        <a href="delete/{{i.id}}"><input class="delete-friends" type="submit" name='delete' value="Remove Friend"></a>
+        <!-- <form action="delete/{{i.id}}">
+        <input class="delete-friends" type="submit" value="Remove Friend" name='delete'>
+        </form> -->
+        <hr>
+        {%endfor%}
+        {%else%}
+        <h5>You have no friends, LOL!!!</h5>
+        {% endif %}
+      </div>
+
+
+
+
+      </div>
+    </body>
+</html>
